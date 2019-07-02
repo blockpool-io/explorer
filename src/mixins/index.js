@@ -103,6 +103,7 @@ const methods = {
 
     const cryptos = {
       'ARK': 'Ѧ',
+      'BPL': 'β',
       'BTC': 'Ƀ',
       'ETH': 'Ξ',
       'LTC': 'Ł'

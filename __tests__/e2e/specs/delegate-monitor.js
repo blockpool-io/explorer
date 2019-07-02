@@ -23,7 +23,7 @@ module.exports = {
       .pause(2000)
       .useXpath()
     browser.expect.element("//div[contains(text(), 'Delegates')]").to.be.visible
-    browser.expect.element("//div[contains(text(), 'Total forged (ARK)')]").to.be.visible
+    browser.expect.element("//div[contains(text(), 'Total forged (BPL)')]").to.be.visible
     browser.expect.element("//div[contains(text(), 'Last block')]").to.be.visible
     browser.expect.element("//div[contains(text(), 'Forged')]").to.be.visible
     browser.expect.element("//div[contains(text(), 'Delegate')]").to.be.visible

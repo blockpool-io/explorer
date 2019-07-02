@@ -1,14 +1,14 @@
 {
   "name": "ark-explorer",
   "version": "3.0.0",
-  "description": "A Blockchain Explorer for ARK using Vue.js and Tailwind CSS",
+  "description": "A Blockchain Explorer for BPL using Vue.js and Tailwind CSS",
   "author": "Brian Faust",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/arkecosystem/explorer.git"
+    "url": "git+https://github.com/blockpool-io/explorer-3.0.git"
   },
   "bugs": {
-    "url": "https://github.com/arkecosystem/explorer/issues"
+    "url": "https://github.com/blockpool-io/explorer-3.0/issues"
   },
   "license": "MIT",
   "scripts": {

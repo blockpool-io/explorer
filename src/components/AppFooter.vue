@@ -2,9 +2,9 @@
   <footer class="max-w-2xl mx-auto px-5 md:px-10 py-8 text-theme-text-tertiary flex flex-col lg:flex-row flex-wrap justify-between items-center">
     <div class="mb-4 lg:mb-0 text-center md:text-left">
       <span class="block md:inline-block mb-4 md:mb-0 text-center">&copy; <a
-        href="https://ark.io"
+        href="https://blockpool.io"
         target="_blank"
-      >Ark.io</a> | {{ year }}. {{ $t("All rights reserved") }}</span> <div class="block md:inline-block">
+      >blockpool.io</a> | {{ year }}. {{ $t("All rights reserved") }}</span> <div class="block md:inline-block">
         <span class="hidden md:inline-block"> | </span> <span>{{ $t("Version") }}: <a
           :href="versionLink"
           target="_blank"
@@ -13,7 +13,7 @@
     </div>
     <div class="text-center">
       <a
-        href="https://facebook.ark.io"
+        href="https://www.facebook.com/blockpool.io/"
         target="_blank"
       >
         <svg
@@ -33,7 +33,7 @@
       </a>
 
       <a
-        href="https://twitter.ark.io"
+        href="https://twitter.com/blockpoolio"
         target="_blank"
       >
         <svg
@@ -53,27 +53,7 @@
       </a>
 
       <a
-        href="https://youtube.ark.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M23.495 6.205a3.007 3.007 0 0 0-2.088-2.088c-1.87-.501-9.396-.501-9.396-.501s-7.507-.01-9.396.501A3.007 3.007 0 0 0 .527 6.205a31.247 31.247 0 0 0-.522 5.805 31.247 31.247 0 0 0 .522 5.783 3.007 3.007 0 0 0 2.088 2.088c1.868.502 9.396.502 9.396.502s7.506 0 9.396-.502a3.007 3.007 0 0 0 2.088-2.088 31.247 31.247 0 0 0 .5-5.783 31.247 31.247 0 0 0-.5-5.805zM9.609 15.601V8.408l6.264 3.602z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="mailto:info@ark.io"
+        href="mailto:support@blockpool.io"
         target="_blank"
       >
         <svg
@@ -93,27 +73,7 @@
       </a>
 
       <a
-        href="https://telegram.me/ArkEcosystem"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 14 14"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M0.247,5.753 L3.472,6.939 L4.722,10.892 C4.801,11.145 5.116,11.239 5.324,11.071 L7.123,9.628 C7.311,9.476 7.580,9.469 7.777,9.610 L11.020,11.928 C11.243,12.088 11.560,11.967 11.615,11.701 L13.991,0.450 C14.052,0.160 13.763,-0.082 13.482,0.025 L0.243,5.053 C-0.084,5.177 -0.081,5.632 0.247,5.753 ZM4.520,6.308 L10.825,2.485 C10.938,2.416 11.054,2.567 10.957,2.656 L5.754,7.418 C5.571,7.585 5.453,7.809 5.420,8.053 L5.242,9.346 C5.219,9.519 4.973,9.536 4.925,9.369 L4.243,7.011 C4.164,6.742 4.279,6.455 4.520,6.308 Z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://reddit.ark.io"
+        href="https://www.reddit.com/r/blockpool/"
         target="_blank"
       >
         <svg
@@ -133,7 +93,7 @@
       </a>
 
       <a
-        href="https://github.ark.io"
+        href="https://github.com/blockpool-io"
         target="_blank"
       >
         <svg
@@ -153,51 +113,7 @@
       </a>
 
       <a
-        href="https://bitcointalk.ark.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M23.638 14.904c-1.602 6.43-8.113 10.34-14.542 8.736C2.67 22.05-1.244 15.525.362 9.105 1.962 2.67 8.475-1.243 14.9.358c6.43 1.605 10.342 8.115 8.738 14.548v-.002zm-6.35-4.613c.24-1.59-.974-2.45-2.64-3.03l.54-2.153-1.315-.33-.525 2.107c-.345-.087-.705-.167-1.064-.25l.526-2.127-1.32-.33-.54 2.165c-.285-.067-.565-.132-.84-.2l-1.815-.45-.35 1.407s.975.225.955.236c.535.136.63.486.615.766l-1.477 5.92c-.075.166-.24.406-.614.314.015.02-.96-.24-.96-.24l-.66 1.51 1.71.426.93.242-.54 2.19 1.32.327.54-2.17c.36.1.705.19 1.05.273l-.51 2.154 1.32.33.545-2.19c2.24.427 3.93.257 4.64-1.774.57-1.637-.03-2.58-1.217-3.196.854-.193 1.5-.76 1.68-1.93h.01zm-3.01 4.22c-.404 1.64-3.157.75-4.05.53l.72-2.9c.896.23 3.757.67 3.33 2.37zm.41-4.24c-.37 1.49-2.662.735-3.405.55l.654-2.64c.744.18 3.137.524 2.75 2.084v.006z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://slack.ark.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M9.879 10.995l1.035 3.085 3.205-1.074-1.035-3.074-3.205 1.08v-.017z"
-          /><path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M18.824 14.055l-1.555.521.54 1.61c.218.65-.135 1.355-.786 1.574-.15.045-.285.067-.435.063-.511-.015-.976-.338-1.155-.849l-.54-1.607-3.21 1.073.539 1.608c.211.652-.135 1.358-.794 1.575-.15.048-.285.067-.435.064-.51-.015-.976-.34-1.156-.85l-.539-1.619-1.561.524c-.15.045-.285.061-.435.061-.511-.016-.976-.345-1.155-.855-.225-.66.135-1.364.78-1.575l1.56-.525L7.5 11.76l-1.551.525c-.141.048-.285.066-.428.064-.495-.016-.975-.338-1.141-.848-.209-.65.135-1.354.796-1.574l1.56-.52-.54-1.605c-.21-.654.136-1.359.796-1.575.659-.22 1.363.136 1.574.783l.539 1.608L12.3 7.544l-.54-1.605c-.209-.645.135-1.35.789-1.574.652-.211 1.359.135 1.575.791l.54 1.621 1.555-.51c.651-.219 1.356.135 1.575.779.218.654-.135 1.359-.784 1.575l-1.557.524 1.035 3.086 1.551-.516c.652-.211 1.358.135 1.575.795.22.66-.135 1.365-.779 1.574l-.011-.029zm4.171-5.356C20.52.456 16.946-1.471 8.699 1.005.456 3.479-1.471 7.051 1.005 15.301c2.475 8.245 6.046 10.17 14.296 7.694 8.245-2.475 10.17-6.046 7.694-14.296z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://discord.ark.io"
+        href="https://discord.blockpool.io"
         target="_blank"
       >
         <svg
@@ -216,47 +132,7 @@
       </a>
 
       <a
-        href="https://gitter.im/ark-developers/Lobby"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M8.501 4.001H10.5V24H8.501V4.001zm6.999 0V24h-2V4.001h2zM3.5 0h2.001v15H3.5V0zm15 4.001h2V15h-2V4.001z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://steemit.ark.io"
-        target="_blank"
-      >
-        <svg
-          viewBox="0 0 24 24"
-          class="m-2"
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:xlink="http://www.w3.org/1999/xlink"
-          width="16px"
-          height="16px"
-        >
-          <path
-            fill-rule="evenodd"
-            fill="currentColor"
-            d="M3.927 2.596c.264.045-.397 1.778-.028 3.76.318 1.697 4.313 8.275 4.148 10.529-.128 1.418-3.408 4.74-3.753 4.52-.377-.105.996-2.361.486-4.244C4.19 14.97.673 9.301.677 6.798c0-1.832 3.011-4.32 3.25-4.202zM11.44.005c.336.058-.506 2.271-.034 4.791.405 2.17 5.501 10.555 5.292 13.432-.166 1.809-4.348 6.043-4.789 5.76-.479-.131 1.271-3.008.622-5.406-.755-2.796-5.238-10.026-5.235-13.218 0-2.338 3.842-5.509 4.144-5.359zm7.754 2.591c.27.045-.393 1.778-.023 3.761.318 1.697 4.313 8.275 4.148 10.529-.125 1.418-3.408 4.74-3.754 4.52-.377-.105.996-2.361.488-4.244-.594-2.192-4.11-7.861-4.105-10.363 0-1.832 3.014-4.32 3.248-4.202h-.002z"
-          />
-        </svg>
-      </a>
-
-      <a
-        href="https://blog.ark.io"
+        href="https://www.blockpool.io/blogs/"
         target="_blank"
       >
         <svg
@@ -292,7 +168,7 @@ export default {
       return GIT_VERSION
     },
     versionLink () {
-      return `https://github.com/ArkEcosystem/explorer/commit/${GIT_VERSION}`
+      return `https://github.com/blockpool-io/explorer-3.0/commit/${GIT_VERSION}`
     },
     date () {
       return GIT_DATE
