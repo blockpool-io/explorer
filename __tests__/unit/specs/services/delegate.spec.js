@@ -24,7 +24,7 @@ const voterPropertyArray = [
 
 describe('Delegate Service', () => {
   beforeAll(() => {
-    store.dispatch('network/setServer', 'https://explorer.ark.io/api/v2')
+    store.dispatch('network/setServer', 'https://explorer.blockpool.io/api/v2')
     store.dispatch('network/setActiveDelegates', 51)
   })
 

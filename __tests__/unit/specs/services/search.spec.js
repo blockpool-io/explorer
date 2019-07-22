@@ -24,7 +24,7 @@ describe('Search Service', () => {
   beforeAll(() => {
     jest.setTimeout(60000)
 
-    store.dispatch('network/setServer', 'https://explorer.ark.io/api/v2')
+    store.dispatch('network/setServer', 'https://explorer.blockpool.io/api/v2')
   })
 
   it('should return an object when searching for existing wallet', async () => {
