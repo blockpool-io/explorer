@@ -1,0 +1,15 @@
+{
+  "title": "Blockpool Explorer",
+  "server": "http://api.mainnet.blockpool.io:9031/api/v2",
+  "alias": "BPL Mainnet",
+  "activeDelegates": "201",
+  "rewardOffset": "1000",
+  "currencies": [],
+  "knownWallets": {},
+  "defaults": {
+    "token": "BPL",
+    "symbol": "β",
+    "currency": null,
+    "priceChart": false
+  }
+}
