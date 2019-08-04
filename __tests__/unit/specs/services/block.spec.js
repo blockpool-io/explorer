@@ -15,7 +15,7 @@ const blockPropertyArray = [
   'timestamp'
 ].sort()
 
-describe('Block Service', () => {
+describe('Services > Block', () => {
   beforeAll(() => {
     store.dispatch('network/setServer', 'https://explorer.blockpool.io/api/v2')
   })

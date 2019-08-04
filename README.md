@@ -10,6 +10,8 @@
 [![Codecov](https://badgen.now.sh/codecov/c/github/blockpool-io/explorer-3.0)](https://codecov.io/gh/blockpool-io/explorer-3.0)
 [![License: MIT](https://badgen.now.sh/badge/license/MIT/green)](https://opensource.org/licenses/MIT)
 
+> Lead Maintainer: [Michel Kraaijeveld](https://github.com/ItsANameToo)
+
 You can access it at [https://explorer.blockpool.io/](https://explorer.blockpool.io/).
 
 ## Build Setup
@@ -98,21 +100,18 @@ yarn dev --env.routerMode=history
 $ yarn test
 ```
 
-## Security
-
-If you discover a security vulnerability within this package, please send an e-mail to security@blockpool.io. All security vulnerabilities will be promptly addressed.
-
 ## Contributing
 
 * If you find any bugs, submit an [issue](../../issues) or open a [pull-request](../../pulls), helping us catch and fix them.
 * Engage with other users and developers on the [Blockpool Discord](https://discord.blockpool.io).
 
+## Security
+
+If you discover a security vulnerability within this package, please send an e-mail to security@ark.io. All security vulnerabilities will be promptly addressed.
+
 ## Credits
 
-- [Brian Faust](https://github.com/faustbrian)
-- [Lúcio Rubens](https://github.com/luciorubeens)
-- [Alex Barnsley](https://github.com/alexbarnsley)
-- [All Contributors](../../contributors)
+This project exists thanks to all the people who [contribute](../../contributors).
 
 ## License
 

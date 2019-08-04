@@ -108,7 +108,7 @@ class CryptoCompareService {
     const token = store.getters['network/token']
     const cache = JSON.parse(localStorage.getItem(`rates_${targetCurrency}`))
 
-    if (cache && cache.hasOwnProperty(ts)) {
+    if (cache && cache[ts]) {
       store.dispatch('currency/setLastConversion', {
         to: targetCurrency,
         timestamp: ts,
