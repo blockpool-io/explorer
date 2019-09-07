@@ -1,6 +1,6 @@
 {
   "title": "Blockpool Testnet Explorer",
-  "server": "http://api.testnet.blockpool.io/api/v2",
+  "server": "https://api.testnet.blockpool.io/api/v2",
   "alias": "BPL Testnet",
   "activeDelegates": 201,
   "rewardOffset": 1000,
