@@ -22,10 +22,14 @@ module.exports = {
     '<rootDir>/__tests__/unit/jest.conf.js',
     '<rootDir>/__tests__/unit/jest.setup.js',
     '<rootDir>/__tests__/unit/setup.js',
+    '<rootDir>/__tests__/unit/__mocks__',
+    '<rootDir>/__tests__/unit/__utils__',
     '<rootDir>/__tests__/e2e'
   ],
   snapshotSerializers: ['<rootDir>/node_modules/jest-serializer-vue'],
-  setupFilesAfterEnv: ['<rootDir>/__tests__/unit/jest.setup.js'],
+  setupFilesAfterEnv: [
+    '<rootDir>/__tests__/unit/jest.setup.js'
+  ],
   setupFiles: ['jest-localstorage-mock', '<rootDir>/__tests__/unit/setup'],
   coverageDirectory: '<rootDir>/__tests__/unit/coverage',
   collectCoverage: true,

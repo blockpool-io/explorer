@@ -2,10 +2,9 @@
   <Loader :data="transactions">
     <TableWrapper
       v-bind="$attrs"
-      :has-pagination="false"
       :columns="columns"
       :rows="transactions"
-      :no-data-message="$t('No results')"
+      :no-data-message="$t('COMMON.NO_RESULTS')"
       @on-sort-change="emitSortChange"
     >
       <template
@@ -44,25 +43,17 @@
         </div>
 
         <div v-else-if="data.column.field === 'amount'">
-          <span class="whitespace-no-wrap">
-            <TransactionAmount
-              :transaction="data.row"
-              :type="data.row.type"
-            />
-          </span>
+          <TransactionAmount
+            :transaction="data.row"
+            :type="data.row.type"
+          />
         </div>
 
         <div v-else-if="data.column.field === 'fee'">
-          <span
-            v-tooltip="{
-              trigger: 'hover click',
-              content: data.row.price ? readableCurrency(data.row.fee, data.row.price) : '',
-              placement: 'top'
-            }"
-            class="whitespace-no-wrap"
-          >
-            {{ readableCrypto(data.row.fee) }}
-          </span>
+          <TransactionAmount
+            :transaction="data.row"
+            :is-fee="true"
+          />
         </div>
 
         <div v-else-if="data.column.field === 'confirmations'">
@@ -78,8 +69,8 @@
               >
             </div>
             <div v-else>
-              <div v-tooltip="data.row.confirmations + ' ' + $t('Confirmations')">
-                {{ $t("Well confirmed") }}
+              <div v-tooltip="data.row.confirmations + ' ' + $t('COMMON.CONFIRMATIONS')">
+                {{ $t('TRANSACTION.WELL_CONFIRMED') }}
               </div>
             </div>
           </div>
@@ -90,8 +81,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
 import CryptoCompareService from '@/services/crypto-compare'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'TableTransactionsDesktop',
@@ -112,49 +103,52 @@ export default {
 
   computed: {
     ...mapGetters('network', ['activeDelegates']),
+    ...mapGetters('currency', { currencySymbol: 'symbol' }),
 
     columns () {
-      const feeClasses = ['hidden', 'md:table-cell']
+      const feeClasses = ['hidden', 'lg:table-cell']
 
       feeClasses.push(this.showConfirmations ? 'pr-10 xl:pr-4' : 'end-cell')
 
       let columns = [
         {
-          label: this.$t('ID'),
+          label: this.$t('COMMON.ID'),
           field: 'id',
           thClass: 'start-cell',
           tdClass: 'start-cell'
         },
         {
-          label: this.$t('Timestamp'),
+          label: this.$t('COMMON.TIMESTAMP'),
           field: 'timestamp.unix',
           type: 'number',
           thClass: 'text-left hidden md:table-cell',
           tdClass: 'text-left hidden md:table-cell wrap-timestamp'
         },
         {
-          label: this.$t('Sender'),
-          field: 'sender'
+          label: this.$t('TRANSACTION.SENDER'),
+          field: 'sender',
+          tdClass: 'break-all'
         },
         {
-          label: this.$t('Recipient'),
-          field: 'recipient'
+          label: this.$t('TRANSACTION.RECIPIENT'),
+          field: 'recipient',
+          tdClass: 'break-all'
         },
         {
-          label: this.$t('Smartbridge'),
+          label: this.$t('TRANSACTION.SMARTBRIDGE'),
           field: 'vendorField',
           thClass: 'text-right cell-smartbridge',
           tdClass: 'text-right cell-smartbridge'
         },
         {
-          label: this.$t('Amount (token)', { token: this.networkToken() }),
+          label: this.$t('TRANSACTION.AMOUNT'),
           field: 'amount',
           type: 'number',
           thClass: 'end-cell lg:base-cell',
           tdClass: 'end-cell lg:base-cell'
         },
         {
-          label: this.$t('Fee (token)', { token: this.networkToken() }),
+          label: this.$t('TRANSACTION.FEE'),
           field: 'fee',
           type: 'number',
           thClass: feeClasses.join(' '),
@@ -166,7 +160,7 @@ export default {
         columns = columns.filter(column => column.field !== 'vendorField')
 
         columns.push({
-          label: this.$t('Confirmations'),
+          label: this.$t('COMMON.CONFIRMATIONS'),
           field: 'confirmations',
           type: 'number',
           sortable: false,
@@ -186,24 +180,35 @@ export default {
   },
 
   watch: {
-    transactions () {
-      this.updatePrices()
+    async transactions () {
+      await this.prepareTransactions()
+    },
+
+    async currencySymbol () {
+      await this.updatePrices()
     }
   },
 
-  created () {
-    this.updatePrices()
+  async created () {
+    this.prepareTransactions()
   },
 
   methods: {
+    async prepareTransactions () {
+      await this.updatePrices()
+    },
+
+    async fetchPrice (transaction) {
+      transaction.price = await CryptoCompareService.dailyAverage(transaction.timestamp.unix)
+    },
+
     async updatePrices () {
       if (!this.transactions) {
         return
       }
 
-      for (const transaction of this.transactions) {
-        transaction.price = await CryptoCompareService.dailyAverage(transaction.timestamp.unix)
-      }
+      const promises = this.transactions.map(this.fetchPrice)
+      await Promise.all(promises)
     },
 
     emitSortChange (params) {

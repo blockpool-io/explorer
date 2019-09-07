@@ -2,10 +2,9 @@
   <Loader :data="wallets">
     <TableWrapper
       v-bind="$attrs"
-      :has-pagination="false"
       :columns="columns"
       :rows="wallets"
-      :no-data-message="$t('No results')"
+      :no-data-message="$t('COMMON.NO_RESULTS')"
       @on-sort-change="emitSortChange"
     >
       <template
@@ -70,24 +69,24 @@ export default {
     columns () {
       const columns = [
         {
-          label: this.$t('Rank'),
+          label: this.$t('COMMON.RANK'),
           field: 'originalIndex',
           type: 'number',
           thClass: 'start-cell w-32',
           tdClass: 'start-cell w-32'
         },
         {
-          label: this.$t('Address'),
+          label: this.$t('WALLET.ADDRESS'),
           field: 'address'
         },
         {
-          label: this.$t('Balance'),
+          label: this.$t('COMMON.BALANCE'),
           field: 'balance',
           type: 'number',
           tdClass: 'whitespace-no-wrap'
         },
         {
-          label: this.$t('Supply'),
+          label: this.$t('COMMON.SUPPLY'),
           field: 'supply',
           type: 'number',
           sortable: false,

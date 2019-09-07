@@ -2,14 +2,18 @@
   "title": "Blockpool Testnet Explorer",
   "server": "http://api.testnet.blockpool.io/api/v2",
   "alias": "BPL Testnet",
-  "activeDelegates": "201",
-  "rewardOffset": "1000",
+  "activeDelegates": 201,
+  "rewardOffset": 1000,
   "currencies": [],
   "knownWallets": {},
   "defaults": {
     "token": "tBPL",
     "symbol": "tβ",
     "currency": null,
-    "priceChart": false
+    "priceChartOptions": {
+      "enabled": false,
+      "period": "day",
+      "type": "price"
+    }
   }
 }

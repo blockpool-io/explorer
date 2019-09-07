@@ -2,14 +2,14 @@
   <span
     v-click-outside="closeDropdown"
     :class="{ 'sm:mb-4': !inBanner }"
-    class="flex w-full sm:w-auto relative z-20 sm:mr-10"
+    class="SelectionType w-full sm:w-auto sm:mr-10"
   >
     <div class="flex sm:hidden w-full">
       <span
         :class="`bg-${backgroundColor} text-${secondaryTextColor}`"
         class="flex items-center rounded-l py-4 px-6 text-xs"
       >
-        {{ $t("Type") }}
+        {{ $t('COMMON.TYPE') }}
       </span>
 
       <span
@@ -18,7 +18,7 @@
         @click="toggleDropdown"
       >
         <span class="font-bold">
-          {{ $t(types[transactionType + 1]) }}
+          {{ $t(`TRANSACTION.TYPES.${types[transactionType + 1]}`) }}
         </span>
 
         <svg
@@ -35,7 +35,7 @@
 
       <ul
         v-show="isOpen"
-        class="absolute inset-x-0 mt-10 bg-white shadow rounded border overflow-hidden text-sm"
+        class="SelectionType--options inset-x-0 mt-10"
       >
         <li
           v-for="(type, index) in types"
@@ -44,7 +44,7 @@
           <div
             class="dropdown-button"
             @click="filterTransactions(index - 1)"
-          >{{ $t(type) }}</div>
+          >{{ $t(`TRANSACTION.TYPES.${type}`) }}</div>
         </li>
       </ul>
     </div>
@@ -54,7 +54,7 @@
         :class="[ inBanner ? bannerClasses : 'text-theme-text-thead' ]"
         class="block mb-2 text-xs"
       >
-        {{ $t("Type") }}
+        {{ $t('COMMON.TYPE') }}
       </span>
 
       <span
@@ -62,7 +62,7 @@
         class="flex items-center cursor-pointer"
         @click="toggleDropdown"
       >
-        <span class="mr-1 md:whitespace-no-wrap">{{ $t(types[transactionType + 1]) }}</span>
+        <span class="mr-1 md:whitespace-no-wrap">{{ $t(`TRANSACTION.TYPES.${types[transactionType + 1]}`) }}</span>
         <svg
           :class="{ 'rotate-180': isOpen }"
           class="fill-current"
@@ -77,7 +77,7 @@
 
       <ul
         v-show="isOpen"
-        class="absolute right-0 mt-2 bg-white shadow rounded border overflow-hidden text-sm"
+        class="SelectionType--options right-0 mt-2"
       >
         <li
           v-for="(type, index) in types"
@@ -86,7 +86,7 @@
           <div
             class="dropdown-button"
             @click="filterTransactions(index - 1)"
-          >{{ $t(type) }}</div>
+          >{{ $t(`TRANSACTION.TYPES.${type}`) }}</div>
         </li>
       </ul>
     </div>
@@ -105,7 +105,12 @@ export default {
 
   data: () => ({
     types: [
-      'All', 'Transfer', 'Second Signature', 'Delegate Registration', 'Vote', 'Multisignature Registration'
+      'ALL',
+      'TRANSFER',
+      'SECOND_SIGNATURE',
+      'DELEGATE_REGISTRATION',
+      'VOTE',
+      'MULTI_SIGNATURE'
     ],
     transactionType: -1,
     selectOpen: false
@@ -159,3 +164,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.SelectionType {
+  @apply .flex .relative .z-20
+}
+
+.SelectionType--options {
+  @apply .absolute .bg-theme-content-background .shadow-theme .rounded .border .overflow-hidden .text-sm
+}
+</style>

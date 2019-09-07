@@ -16,7 +16,13 @@
 <script type="text/ecmascript-6">
 import AppHeader from '@/components/header/AppHeader'
 import AppFooter from '@/components/AppFooter'
-import { BlockchainService, CryptoCompareService, DelegateService, NodeService } from '@/services'
+import {
+  BlockchainService,
+  CryptoCompareService,
+  DelegateService,
+  MigrationService,
+  NodeService
+} from '@/services'
 import { mapGetters } from 'vuex'
 import moment from 'moment'
 
@@ -38,6 +44,8 @@ export default {
   },
 
   async created () {
+    MigrationService.executeMigrations()
+
     const network = require(`../networks/${process.env.EXPLORER_CONFIG}`)
 
     this.$store.dispatch(
@@ -73,22 +81,17 @@ export default {
 
     this.$store.dispatch(
       'ui/setLanguage',
-      localStorage.getItem('language') || 'en-gb'
+      localStorage.getItem('language') || 'en-GB'
     )
 
     this.$store.dispatch(
       'ui/setLocale',
-      localStorage.getItem('locale') || navigator.language || 'en-gb'
+      localStorage.getItem('locale') || navigator.language || 'en-GB'
     )
 
     this.$store.dispatch(
-      'ui/setPriceChart',
-      localStorage.getItem('priceChart') || network.defaults.priceChart
-    )
-
-    this.$store.dispatch(
-      'ui/setPriceChartPeriod',
-      localStorage.getItem('priceChartPeriod') || network.defaults.priceChartPeriod
+      'ui/setPriceChartOptions',
+      JSON.parse(localStorage.getItem('priceChartOptions')) || network.defaults.priceChartOptions
     )
 
     this.updateI18n()

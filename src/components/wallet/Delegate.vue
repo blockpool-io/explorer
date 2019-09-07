@@ -1,15 +1,18 @@
 <template>
-  <div v-if="delegate">
+  <div
+    v-if="delegate"
+    class="WalletDelegate"
+  >
     <div class="list-row-border-b">
-      <div>{{ $t("Delegate") }}</div>
+      <div>{{ $t('WALLET.DELEGATE.USERNAME') }}</div>
       <div>{{ delegate.username }}</div>
     </div>
 
     <div class="list-row-border-b">
-      <div>{{ $t("Rank/Status") }}</div>
+      <div>{{ $t('WALLET.DELEGATE.RANK') }}</div>
       <div>
         <span v-if="delegate.rank === undefined">
-          {{ $t('Not yet available') }}
+          {{ $t('WALLET.DELEGATE.RANK_NOT_AVAILABLE') }}
         </span>
         <span v-else>
           {{ delegate.rank }}
@@ -18,14 +21,14 @@
     </div>
 
     <div class="list-row-border-b">
-      <div>{{ $t("Votes") }}</div>
+      <div>{{ $t('WALLET.DELEGATE.VOTES') }}</div>
       <div
         v-if="delegate.production"
       >
         <span
           v-tooltip="delegate.votes ? {
             trigger: 'hover click',
-            content: $t('Percentage of the total supply'),
+            content: $t('COMMON.SUPPLY_PERCENTAGE'),
             placement: 'left'
           } : {}"
           class="text-grey text-2xs mr-1"
@@ -37,14 +40,14 @@
     </div>
 
     <div class="list-row-border-b">
-      <div>{{ $t("Forged") }}</div>
+      <div>{{ $t('WALLET.DELEGATE.TOTAL_FORGED') }}</div>
       <div v-if="delegate.forged">
         {{ readableCrypto(delegate.forged.total) }}
       </div>
     </div>
 
     <div class="list-row">
-      <div>{{ $t("Blocks") }}</div>
+      <div>{{ $t('WALLET.DELEGATE.FORGED_BLOCKS') }}</div>
       <div v-if="delegate.blocks">
         <span>
           {{ readableNumber(delegate.blocks.produced, 0) }}
@@ -54,16 +57,24 @@
           :to="{ name: 'wallet-blocks', params: { address: delegate.address, username: delegate.username, page: 1 } }"
           class="ml-2"
         >
-          {{ $t("See all") }}
+          {{ $t('COMMON.SEE_ALL') }}
         </RouterLink>
       </div>
     </div>
+
+    <WalletVoters :wallet="wallet" />
   </div>
 </template>
 
 <script type="text/ecmascript-6">
+import WalletVoters from '@/components/wallet/Voters'
+
 export default {
   name: 'WalletDelegate',
+
+  components: {
+    WalletVoters
+  },
 
   props: {
     wallet: {
