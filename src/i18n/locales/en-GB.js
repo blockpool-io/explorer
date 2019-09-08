@@ -176,6 +176,7 @@ export default {
     NETWORK: 'Network',
     MAIN: 'Main',
     DEVELOPMENT: 'Development',
+    TEST: 'Test',
     SUPPLY: 'Supply',
     MARKET_CAP: 'Market Cap'
   },
