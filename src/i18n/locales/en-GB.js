@@ -174,9 +174,10 @@ export default {
   HEADER: {
     MENU: 'Menu',
     NETWORK: 'Network',
-    MAIN: 'Main',
-    DEVELOPMENT: 'Development',
-    TEST: 'Test',
+    MAIN: 'Mainnet',
+    DEVELOPMENT: 'Devnet',
+    TEST: 'Testnet',
+    TESTNET: 'Testnet',
     SUPPLY: 'Supply',
     MARKET_CAP: 'Market Cap'
   },

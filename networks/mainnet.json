@@ -1,7 +1,7 @@
 {
   "title": "Blockpool Explorer",
   "server": "https://api.blockpool.io/api/v2",
-  "alias": "BPL Mainnet",
+  "alias": "main",
   "activeDelegates": 201,
   "rewardOffset": 1000,
   "currencies": {

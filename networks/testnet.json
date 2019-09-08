@@ -1,7 +1,7 @@
 {
   "title": "Blockpool Testnet Explorer",
   "server": "https://api.testnet.blockpool.io/api/v2",
-  "alias": "Testnet",
+  "alias": "test",
   "activeDelegates": 201,
   "rewardOffset": 1000,
   "currencies": [],
