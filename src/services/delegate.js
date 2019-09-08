@@ -67,7 +67,7 @@ class DelegateService {
 
     const response = await ApiService.get('delegates', {
       params: {
-        limit: Math.min(activeDelegates, 100)
+        limit: activeDelegates
       }
     })
 
@@ -86,8 +86,8 @@ class DelegateService {
 
     const response = await ApiService.get('delegates', {
       params: {
-        offset: Math.min(activeDelegates, 100),
-        limit: Math.min(activeDelegates, 100)
+        offset: activeDelegates,
+        limit: activeDelegates
       }
     })
 
@@ -99,7 +99,7 @@ class DelegateService {
 
     const response = await ApiService.get('delegates', {
       params: {
-        limit: Math.min(activeDelegates, 100)
+        limit: activeDelegates
       }
     })
 
