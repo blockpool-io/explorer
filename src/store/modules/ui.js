@@ -3,13 +3,20 @@ import * as types from '../mutation-types'
 export default {
   namespaced: true,
   state: {
-    language: 'en-gb',
-    locale: navigator.language || 'en-gb',
+    language: 'en-GB',
+    locale: navigator.language || 'en-GB',
     nightMode: false,
-    priceChart: true,
-    priceChartPeriod: 'day',
+    priceChartOptions: {
+      enabled: true,
+      period: 'day',
+      type: 'price'
+    },
     headerType: null,
-    menuVisible: false
+    menuVisible: false,
+    blockSortParams: null,
+    delegateSortParams: null,
+    transactionSortParams: null,
+    walletSortParams: null
   },
   mutations: {
     [types.SET_UI_LANGUAGE] (state, payload) {
@@ -27,11 +34,20 @@ export default {
     [types.SET_UI_MENU_VISIBLE] (state, payload) {
       state.menuVisible = payload.value
     },
-    [types.SET_UI_PRICE_CHART] (state, payload) {
-      state.priceChart = payload.value
+    [types.SET_UI_PRICE_CHART_OPTIONS] (state, payload) {
+      state.priceChartOptions = payload.value
     },
-    [types.SET_UI_PRICE_CHART_PERIOD] (state, payload) {
-      state.priceChartPeriod = payload.value
+    [types.SET_UI_BLOCK_SORT_PARAMS] (state, payload) {
+      state.blockSortParams = payload.value
+    },
+    [types.SET_UI_DELEGATE_SORT_PARAMS] (state, payload) {
+      state.delegateSortParams = payload.value
+    },
+    [types.SET_UI_TRANSACTION_SORT_PARAMS] (state, payload) {
+      state.transactionSortParams = payload.value
+    },
+    [types.SET_UI_WALLET_SORT_PARAMS] (state, payload) {
+      state.walletSortParams = payload.value
     }
   },
   actions: {
@@ -83,19 +99,57 @@ export default {
         value
       })
     },
-    setPriceChart: ({ commit }, value) => {
-      localStorage.setItem('priceChart', value)
+    setPriceChartOption: ({ dispatch, getters }, { option, value }) => {
+      const options = { ...getters.priceChartOptions }
+      options[option] = value
+
+      dispatch('setPriceChartOptions', options)
+    },
+    setPriceChartOptions: ({ commit }, value) => {
+      localStorage.setItem('priceChartOptions', JSON.stringify(value))
 
       commit({
-        type: types.SET_UI_PRICE_CHART,
-        value: JSON.parse(value)
+        type: types.SET_UI_PRICE_CHART_OPTIONS,
+        value
       })
     },
-    setPriceChartPeriod: ({ commit }, value) => {
-      localStorage.setItem('priceChartPeriod', value)
+    setBlockSortParams: ({ commit }, value) => {
+      value = JSON.stringify(value)
+
+      localStorage.setItem('blockSortParams', value)
 
       commit({
-        type: types.SET_UI_PRICE_CHART_PERIOD,
+        type: types.SET_UI_BLOCK_SORT_PARAMS,
+        value
+      })
+    },
+    setDelegateSortParams: ({ commit }, value) => {
+      value = JSON.stringify(value)
+
+      localStorage.setItem('delegateSortParams', value)
+
+      commit({
+        type: types.SET_UI_DELEGATE_SORT_PARAMS,
+        value
+      })
+    },
+    setTransactionSortParams: ({ commit }, value) => {
+      value = JSON.stringify(value)
+
+      localStorage.setItem('transactionSortParams', value)
+
+      commit({
+        type: types.SET_UI_TRANSACTION_SORT_PARAMS,
+        value
+      })
+    },
+    setWalletSortParams: ({ commit }, value) => {
+      value = JSON.stringify(value)
+
+      localStorage.setItem('walletSortParams', value)
+
+      commit({
+        type: types.SET_UI_WALLET_SORT_PARAMS,
         value
       })
     }
@@ -104,9 +158,31 @@ export default {
     language: state => state.language,
     locale: state => state.locale,
     nightMode: state => state.nightMode,
-    priceChart: state => state.priceChart,
-    priceChartPeriod: state => state.priceChartPeriod,
+    priceChartOptions: state => state.priceChartOptions,
     headerType: state => state.headerType,
-    menuVisible: state => state.menuVisible
+    menuVisible: state => state.menuVisible,
+
+    blockSortParams (state) {
+      const params = state.blockSortParams || localStorage.getItem('blockSortParams')
+      return params ? JSON.parse(params) : { field: 'height', type: 'desc' }
+    },
+
+    delegateSortParams (state) {
+      const params = state.delegateSortParams || localStorage.getItem('delegateSortParams')
+      return params ? JSON.parse(params) : {
+        active: { field: 'rank', type: 'asc' },
+        standby: { field: 'rank', type: 'asc' }
+      }
+    },
+
+    transactionSortParams (state) {
+      const params = state.transactionSortParams || localStorage.getItem('transactionSortParams')
+      return params ? JSON.parse(params) : { field: 'timestamp.unix', type: 'desc' }
+    },
+
+    walletSortParams (state) {
+      const params = state.walletSortParams || localStorage.getItem('walletSortParams')
+      return params ? JSON.parse(params) : { field: 'originalIndex', type: 'asc' }
+    }
   }
 }

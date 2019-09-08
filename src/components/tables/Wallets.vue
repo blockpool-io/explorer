@@ -2,11 +2,10 @@
   <Loader :data="wallets">
     <TableWrapper
       v-bind="$attrs"
-      :has-pagination="false"
       :columns="columns"
       :rows="wallets"
-      :sort-query="{ field: 'originalIndex', type: 'asc' }"
-      :no-data-message="$t('No results')"
+      :no-data-message="$t('COMMON.NO_RESULTS')"
+      @on-sort-change="emitSortChange"
     >
       <template
         slot-scope="data"
@@ -24,12 +23,12 @@
 
         <div v-else-if="data.column.field === 'balance'">
           <span>
-            {{ readableCrypto(data.row.balance) }}
+            {{ readableCrypto(data.row.balance, true, truncateBalance ? 2 : 8) }}
           </span>
         </div>
 
         <div v-else-if="data.column.field === 'supply'">
-          {{ readableNumber((data.row.balance / total) * 100) }}%
+          {{ percentageString((data.row.balance / total) * 100) }}
         </div>
       </template>
     </TableWrapper>
@@ -56,33 +55,42 @@ export default {
     }
   },
 
+  data: () => ({
+    windowWidth: 0
+  }),
+
   computed: {
     ...mapGetters('network', ['supply']),
+
+    truncateBalance () {
+      return this.windowWidth < 700
+    },
 
     columns () {
       const columns = [
         {
-          label: this.$t('Rank'),
+          label: this.$t('COMMON.RANK'),
           field: 'originalIndex',
           type: 'number',
           thClass: 'start-cell w-32',
           tdClass: 'start-cell w-32'
         },
         {
-          label: this.$t('Address'),
+          label: this.$t('WALLET.ADDRESS'),
           field: 'address'
         },
         {
-          label: this.$t('Balance'),
+          label: this.$t('COMMON.BALANCE'),
           field: 'balance',
-          type: 'number'
+          type: 'number',
+          tdClass: 'whitespace-no-wrap'
         },
         {
-          label: this.$t('Supply'),
+          label: this.$t('COMMON.SUPPLY'),
           field: 'supply',
           type: 'number',
           sortable: false,
-          thClass: 'end-cell w-24',
+          thClass: 'end-cell w-24 not-sortable',
           tdClass: 'end-cell w-24'
         }
       ]
@@ -91,11 +99,25 @@ export default {
     }
   },
 
+  mounted () {
+    this.windowWidth = window.innerWidth
+
+    this.$nextTick(() => {
+      window.addEventListener('resize', () => {
+        this.windowWidth = window.innerWidth
+      })
+    })
+  },
+
   methods: {
     getRank (value) {
       const page = this.$route.params.page > 1 ? this.$route.params.page - 1 : 0
 
       return page * 25 + (value + 1)
+    },
+
+    emitSortChange (params) {
+      this.$emit('on-sort-change', params[0])
     }
   }
 }

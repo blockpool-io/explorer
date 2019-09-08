@@ -2,30 +2,24 @@ import { shallowMount, createLocalVue } from '@vue/test-utils'
 import mixins from '@/mixins'
 
 import errorPage from '@/pages/404'
-import VueI18n from 'vue-i18n'
+import { useI18n } from '../../__utils__/i18n'
 import Vuex from 'vuex'
 
-const localVue = createLocalVue()
-localVue.use(VueI18n)
-localVue.use(Vuex)
+describe('Pages > 404', () => {
+  const localVue = createLocalVue()
+  localVue.use(Vuex)
 
-const i18n = new VueI18n({
-  locale: 'en-gb',
-  fallbackLocale: 'en-gb',
-  messages: { 'en-gb': {} },
-  silentTranslationWarn: true
-})
+  const i18n = useI18n(localVue)
 
-const uiAction = { setNightMode: jest.fn() }
+  const uiAction = { setNightMode: jest.fn() }
 
-describe('page/404', () => {
-  it('Should show the correct image for nightmode', () => {
+  it('should show the correct image for nightmode', () => {
     const store = new Vuex.Store({
       modules: {
         ui: {
           namespaced: true,
           actions: uiAction,
-          getters: { nightMode: state => true }
+          getters: { nightMode: () => true }
         }
       },
       strict: true
@@ -37,20 +31,21 @@ describe('page/404', () => {
       mixins,
       store,
       stubs: {
-        'ContentHeader': '<div></div>'
+        ContentHeader: '<div></div>'
       }
     })
-    expect(wrapper.find('h1').text()).toEqual('Ooops!!')
+
+    expect(wrapper.find('h1').text()).toEqual('Ooops!')
     expect(wrapper.find('img').attributes().src).toBe('@/assets/images/404/dark.png')
   })
 
-  it('Should show the correct image for daymode', () => {
+  it('should show the correct image for daymode', () => {
     const store = new Vuex.Store({
       modules: {
         ui: {
           namespaced: true,
           actions: uiAction,
-          getters: { nightMode: state => false }
+          getters: { nightMode: () => false }
         }
       },
       strict: true
@@ -62,10 +57,11 @@ describe('page/404', () => {
       mixins,
       store,
       stubs: {
-        'ContentHeader': '<div></div>'
+        ContentHeader: '<div></div>'
       }
     })
-    expect(wrapper.find('h1').text()).toEqual('Ooops!!')
+
+    expect(wrapper.find('h1').text()).toEqual('Ooops!')
     expect(wrapper.find('img').attributes().src).toBe('@/assets/images/404/light.png')
   })
 })

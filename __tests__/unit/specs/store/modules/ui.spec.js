@@ -1,6 +1,6 @@
 import store from '@/store'
 
-describe('ui store module', () => {
+describe('Store > UI', () => {
   it('should enable the night mode', () => {
     store.dispatch('ui/setNightMode', true)
 
@@ -14,45 +14,67 @@ describe('ui store module', () => {
   })
 
   it('should show the price chart', () => {
-    store.dispatch('ui/setPriceChart', true)
+    store.dispatch('ui/setPriceChartOption', {
+      option: 'enabled',
+      value: true
+    })
 
-    expect(store.getters['ui/priceChart']).toEqual(true)
+    expect(store.getters['ui/priceChartOptions'].enabled).toEqual(true)
   })
 
   it('should hide the price chart', () => {
-    store.dispatch('ui/setPriceChart', false)
+    store.dispatch('ui/setPriceChartOption', {
+      option: 'enabled',
+      value: false
+    })
 
-    expect(store.getters['ui/priceChart']).toEqual(false)
+    expect(store.getters['ui/priceChartOptions'].enabled).toEqual(false)
   })
 
-  it("should have 'day' as the default price chart period", () => {
-    expect(store.getters['ui/priceChartPeriod']).toEqual('day')
+  it('should have \'day\' as the default price chart period', () => {
+    expect(store.getters['ui/priceChartOptions'].period).toEqual('day')
   })
 
   it('should set the price chart period', () => {
-    store.dispatch('ui/setPriceChartPeriod', 'week')
+    store.dispatch('ui/setPriceChartOption', {
+      option: 'period',
+      value: 'week'
+    })
 
-    expect(store.getters['ui/priceChartPeriod']).toEqual('week')
+    expect(store.getters['ui/priceChartOptions'].period).toEqual('week')
+  })
+
+  it('should have \'price\' as the default price chart type', () => {
+    expect(store.getters['ui/priceChartOptions'].type).toEqual('price')
+  })
+
+  it('should set the price chart type', () => {
+    store.dispatch('ui/setPriceChartOption', {
+      option: 'type',
+      value: 'volume'
+    })
+
+    expect(store.getters['ui/priceChartOptions'].type).toEqual('volume')
   })
 
   it('should have English set as default language', () => {
-    expect(store.getters['ui/language']).toEqual('en-gb')
+    expect(store.getters['ui/language']).toEqual('en-GB')
   })
 
   it('should set the language', () => {
-    store.dispatch('ui/setLanguage', 'nl')
+    store.dispatch('ui/setLanguage', 'nl-NL')
 
-    expect(store.getters['ui/language']).toEqual('nl')
+    expect(store.getters['ui/language']).toEqual('nl-NL')
   })
 
   it('should have navigator or English set as default locale', () => {
-    expect(store.getters['ui/locale']).toEqual(navigator.language || 'en-gb')
+    expect(store.getters['ui/locale']).toEqual(navigator.language || 'en-GB')
   })
 
   it('should set the locale', () => {
-    store.dispatch('ui/setLocale', 'nl')
+    store.dispatch('ui/setLocale', 'nl-NL')
 
-    expect(store.getters['ui/locale']).toEqual('nl')
+    expect(store.getters['ui/locale']).toEqual('nl-NL')
   })
 
   it('should set the header type', () => {
@@ -71,5 +93,37 @@ describe('ui store module', () => {
     store.dispatch('ui/setMenuVisible', false)
 
     expect(store.getters['ui/menuVisible']).toEqual(false)
+  })
+
+  it('should set the block sort params', () => {
+    const params = { field: 'test' }
+
+    store.dispatch('ui/setBlockSortParams', params)
+
+    expect(store.getters['ui/blockSortParams']).toEqual(params)
+  })
+
+  it('should set the delegate sort params', () => {
+    const params = { field: 'test' }
+
+    store.dispatch('ui/setDelegateSortParams', params)
+
+    expect(store.getters['ui/delegateSortParams']).toEqual(params)
+  })
+
+  it('should set the transaction sort params', () => {
+    const params = { field: 'test' }
+
+    store.dispatch('ui/setTransactionSortParams', params)
+
+    expect(store.getters['ui/transactionSortParams']).toEqual(params)
+  })
+
+  it('should set the wallet sort params', () => {
+    const params = { field: 'test' }
+
+    store.dispatch('ui/setWalletSortParams', params)
+
+    expect(store.getters['ui/walletSortParams']).toEqual(params)
   })
 })

@@ -1,6 +1,6 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Delegate Monitor") }}</ContentHeader>
+    <ContentHeader>{{ $t('PAGES.DELEGATE_MONITOR.TITLE') }}</ContentHeader>
 
     <MonitorHeader />
 
@@ -10,13 +10,13 @@
           :class="activeTab === 'active' ? 'active-tab' : 'inactive-tab'"
           @click="activeTab = 'active'"
         >
-          {{ $t("Active") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.ACTIVE') }}
         </div>
         <div
           :class="activeTab === 'standby' ? 'active-tab' : 'inactive-tab'"
           @click="activeTab = 'standby'"
         >
-          {{ $t("Standby") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.STANDBY') }}
         </div>
       </nav>
 
@@ -25,32 +25,25 @@
         :delegates="delegates || []"
       />
 
-      <ActiveDelegates
-        v-if="activeTab === 'active'"
+      <TableDelegates
         :delegates="delegates"
+        :show-standby="activeTab === 'standby'"
+        :sort-query="sortParams[activeTab]"
+        @on-sort-change="onSortChange"
       />
-
-      <StandbyDelegates v-if="activeTab === 'standby'" />
     </section>
   </div>
 </template>
 
 <script type="text/ecmascript-6">
-import {
-  ActiveDelegates,
-  MonitorHeader,
-  ForgingStats,
-  StandbyDelegates
-} from '@/components/monitor'
+import { MonitorHeader, ForgingStats } from '@/components/monitor'
 import DelegateService from '@/services/delegate'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ActiveDelegates,
     MonitorHeader,
-    ForgingStats,
-    StandbyDelegates
+    ForgingStats
   },
 
   data: () => ({
@@ -59,11 +52,32 @@ export default {
   }),
 
   computed: {
-    ...mapGetters('network', ['height'])
+    ...mapGetters('network', ['height']),
+
+    sortParams: {
+      get () {
+        return this.$store.getters['ui/delegateSortParams']
+      },
+
+      set (params) {
+        this.$store.dispatch('ui/setDelegateSortParams', {
+          ...this.sortParams,
+          [this.activeTab]: {
+            field: params.field,
+            type: params.type
+          }
+        })
+      }
+    }
   },
 
   watch: {
     async height () {
+      await this.setDelegates()
+    },
+
+    async activeTab () {
+      this.delegates = null
       await this.setDelegates()
     }
   },
@@ -75,16 +89,13 @@ export default {
   methods: {
     async setDelegates () {
       if (this.height) {
-        this.delegates = await DelegateService.active()
+        this.delegates = await DelegateService[this.activeTab]()
       }
+    },
+
+    onSortChange (params) {
+      this.sortParams = params
     }
   }
 }
 </script>
-
-<style>
-.meter {
-  width: 50px;
-  height: 50px;
-}
-</style>

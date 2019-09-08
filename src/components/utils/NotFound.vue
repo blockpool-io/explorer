@@ -10,12 +10,14 @@
       class="mx-auto"
       src="@/assets/images/not-found/dark.png"
     >
+
     <h1 class="text-3xl">
-      {{ $t('Ooops!') }}
+      {{ $t('PAGES.NOT_FOUND.TITLE') }}
     </h1>
+
     <i18n
       tag="p"
-      path="Sorry, dataType dataId could not be found on the blockchain"
+      path="PAGES.NOT_FOUND.DATA"
       class="mt-2"
     >
       <span place="dataType">{{ dataType }}</span>
@@ -26,6 +28,18 @@
         {{ dataId }}
       </span>
     </i18n>
+
+    <button
+      :disabled="isLoading"
+      class="button-lg mt-4"
+      @click="emitReload"
+    >
+      <span v-if="!isLoading">{{ $t('COMMON.RELOAD') }}</span>
+      <Loader
+        v-else
+        :data="null"
+      />
+    </button>
   </div>
 </template>
 
@@ -36,6 +50,11 @@ export default {
   name: 'NotFound',
 
   props: {
+    isLoading: {
+      type: Boolean,
+      required: true
+    },
+
     dataType: {
       type: String,
       required: true
@@ -49,6 +68,12 @@ export default {
 
   computed: {
     ...mapGetters('ui', ['nightMode'])
+  },
+
+  methods: {
+    emitReload () {
+      this.$emit('reload')
+    }
   }
 }
 </script>

@@ -2,7 +2,11 @@
   <div>
     <Loader :data="transactions">
       <div class="hidden sm:block">
-        <TableTransactionsDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          :transactions="transactions"
+          :sort-query="sortParams"
+          @on-sort-change="onSortChange"
+        />
       </div>
       <div class="sm:hidden">
         <TableTransactionsMobile :transactions="transactions" />
@@ -11,9 +15,9 @@
         <RouterLink
           :to="{ name: 'transactions', params: { page: 2 } }"
           tag="button"
-          class="show-more-button"
+          class="button-lg"
         >
-          {{ $t("Show more") }}
+          {{ $t('PAGINATION.SHOW_MORE') }}
         </RouterLink>
       </div>
     </Loader>
@@ -37,6 +41,21 @@ export default {
     transactions: null
   }),
 
+  computed: {
+    sortParams: {
+      get () {
+        return this.$store.getters['ui/transactionSortParams']
+      },
+
+      set (params) {
+        this.$store.dispatch('ui/setTransactionSortParams', {
+          field: params.field,
+          type: params.type
+        })
+      }
+    }
+  },
+
   watch: {
     async transactionType () {
       this.transactions = null
@@ -57,7 +76,12 @@ export default {
 
     async getTransactions () {
       const { data } = await TransactionService.filterByType(1, this.transactionType)
-      this.transactions = data
+
+      this.transactions = data.map(transaction => ({ ...transaction, price: null }))
+    },
+
+    onSortChange (params) {
+      this.sortParams = params
     }
   }
 }

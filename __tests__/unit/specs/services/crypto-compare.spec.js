@@ -1,15 +1,15 @@
 import CryptoCompareService from '@/services/crypto-compare'
 import store from '@/store'
 
-describe('CryptoCompare Service', () => {
+describe('Services > CryptoCompare', () => {
   beforeAll(() => {
-    store.dispatch('network/setServer', 'https://explorer.ark.io/api/v2')
+    store.dispatch('network/setServer', 'https://explorer.blockpool.io/api/v2')
     store.dispatch('network/setAlias', 'Main')
-    store.dispatch('network/setToken', 'ARK')
+    store.dispatch('network/setToken', 'BPL')
     store.dispatch('currency/setName', 'USD')
   })
 
-  it('should return price for ARK in given currency', async () => {
+  it('should return price for BPL in given currency', async () => {
     const data = await CryptoCompareService.price('USD')
     expect(data).toBeGreaterThan(0)
   })
@@ -45,7 +45,7 @@ describe('CryptoCompare Service', () => {
   })
 
   it('should return year values, even if token matches currency', async () => {
-    store.dispatch('currency/setName', 'ARK')
+    store.dispatch('currency/setName', 'BPL')
     const data = await CryptoCompareService.year()
     expect(data.labels.length).toBeGreaterThanOrEqual(366)
     expect(data.datasets.length).toBeGreaterThanOrEqual(366)
