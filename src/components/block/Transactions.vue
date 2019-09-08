@@ -1,11 +1,15 @@
 <template>
   <div v-if="transactions && transactions.length > 0">
     <h2 class="text-2xl mb-5 md:mb-6 px-5 sm:hidden text-theme-text-primary">
-      {{ $t("Transactions") }}
+      {{ $t('COMMON.TRANSACTIONS') }}
     </h2>
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <TableTransactionsDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          :transactions="transactions"
+          :sort-query="sortParams"
+          @on-sort-change="onSortChange"
+        />
       </div>
       <div class="sm:hidden">
         <TableTransactionsMobile :transactions="transactions" />
@@ -17,9 +21,9 @@
         <RouterLink
           :to="{ name: 'block-transactions', params: { block: block.id, page: 2 } }"
           tag="button"
-          class="show-more-button"
+          class="button-lg"
         >
-          {{ $t("Show more") }}
+          {{ $t('PAGINATION.SHOW_MORE') }}
         </RouterLink>
       </div>
     </section>
@@ -43,6 +47,21 @@ export default {
     transactions: null
   }),
 
+  computed: {
+    sortParams: {
+      get () {
+        return this.$store.getters['ui/transactionSortParams']
+      },
+
+      set (params) {
+        this.$store.dispatch('ui/setTransactionSortParams', {
+          field: params.field,
+          type: params.type
+        })
+      }
+    }
+  },
+
   watch: {
     block () {
       this.resetTransactions()
@@ -60,8 +79,12 @@ export default {
 
       if (this.block.transactions) {
         const { data } = await TransactionService.byBlock(this.block.id)
-        this.transactions = data
+        this.transactions = data.map(transaction => ({ ...transaction, price: null }))
       }
+    },
+
+    onSortChange (params) {
+      this.sortParams = params
     }
   }
 }

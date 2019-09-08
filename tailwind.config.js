@@ -77,10 +77,16 @@ module.exports = {
       'chart-active': 'var(--chart-active)',
       'chart-inactive': 'var(--chart-inactive)',
       'theme-button': 'var(--theme-button)',
+      'theme-button-active': 'var(--theme-button-active)',
       'theme-button-text': 'var(--theme-button-text)',
+      'theme-button-close': 'var(--theme-button-close)',
       'language-icon': 'var(--language-icon)',
 
       'theme-text-thead': 'var(--color-theme-text-thead)',
+
+      'status-forging': '#40a130',
+      'status-not-forging': '#e23a3e',
+      'status-missed-block': '#f5bd5c',
       // END CUSTOM ADDED
 
       black: '#172130',
@@ -209,6 +215,7 @@ module.exports = {
     },
 
     fontSize: {
+      '0': 0,
       '2xs': '.8125rem', // 13px
       xs: '.875rem', // 14px
       sm: '0.9375rem', // 15px

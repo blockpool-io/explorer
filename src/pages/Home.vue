@@ -1,9 +1,9 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Latest transactions and blocks") }}</ContentHeader>
+    <ContentHeader>{{ $t('PAGES.HOME.HEADER') }}</ContentHeader>
 
     <section
-      v-if="priceChart"
+      v-if="isChartEnabled"
       class="hidden md:block mb-5 bg-theme-feature-background xl:rounded-lg"
     >
       <ChartWrapper />
@@ -19,13 +19,13 @@
             :class="dataView === 'transactions' ? 'active-tab' : 'inactive-tab'"
             @click="dataView = 'transactions'"
           >
-            {{ $t("Latest transactions") }}
+            {{ $t('PAGES.HOME.LATEST_TRANSACTIONS') }}
           </div>
           <div
             :class="dataView === 'blocks' ? 'active-tab' : 'inactive-tab'"
             @click="dataView = 'blocks'"
           >
-            {{ $t("Latest blocks") }}
+            {{ $t('PAGES.HOME.LATEST_BLOCKS') }}
           </div>
         </nav>
 
@@ -49,7 +49,6 @@
 import ChartWrapper from '@/components/ChartWrapper'
 import { LatestBlocks, LatestTransactions } from '@/components/home'
 import SelectionType from '@/components/SelectionType'
-import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -65,7 +64,9 @@ export default {
   }),
 
   computed: {
-    ...mapGetters('ui', ['priceChart'])
+    isChartEnabled () {
+      return this.$store.getters['ui/priceChartOptions'].enabled
+    }
   },
 
   created () {

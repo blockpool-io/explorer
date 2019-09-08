@@ -2,21 +2,15 @@ import { mount, createLocalVue } from '@vue/test-utils'
 
 import SelectionType from '@/components/SelectionType'
 import clickOutside from '@/directives/click-outside'
-import VueI18n from 'vue-i18n'
+import { useI18n } from '../../__utils__/i18n'
 
-const localVue = createLocalVue()
-localVue.use(VueI18n)
-localVue.directive('click-outside', clickOutside)
+describe('Components > SelectionType', () => {
+  const localVue = createLocalVue()
+  const i18n = useI18n(localVue)
 
-const i18n = new VueI18n({
-  locale: 'en-gb',
-  fallbackLocale: 'en-gb',
-  messages: { 'en-gb': {} },
-  silentTranslationWarn: true
-})
+  localVue.directive('click-outside', clickOutside)
 
-describe('SelectionType', () => {
-  it('Should be possible to open and close the dropdown', () => {
+  it('should be possible to open and close the dropdown', () => {
     const wrapper = mount(SelectionType, {
       i18n,
       localVue,
@@ -30,7 +24,7 @@ describe('SelectionType', () => {
     expect(wrapper.findAll('ul').at(1).isVisible()).toBeFalsy()
   })
 
-  it('Should close the dropdown after selecting a type', () => {
+  it('should close the dropdown after selecting a type', () => {
     const wrapper = mount(SelectionType, {
       i18n,
       localVue,
@@ -42,7 +36,7 @@ describe('SelectionType', () => {
     expect(wrapper.vm.selectOpen).toBeFalsy()
   })
 
-  it('Should save the selected type to localStorage', () => {
+  it('should save the selected type to localStorage', () => {
     const wrapper = mount(SelectionType, {
       i18n,
       localVue,

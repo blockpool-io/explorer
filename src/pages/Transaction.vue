@@ -3,23 +3,17 @@
     v-if="transaction"
     class="max-w-2xl mx-auto md:pt-5"
   >
-    <ContentHeader>{{ $t("Transaction") }}</ContentHeader>
+    <ContentHeader>{{ $t('COMMON.TRANSACTION') }}</ContentHeader>
 
     <template v-if="transactionNotFound">
       <section class="page-section py-5 md:py-10 px-6">
         <div class="my-10 text-center">
           <NotFound
+            :is-loading="isLoading"
             :data-id="transaction.id"
             data-type="transaction"
+            @reload="onReload"
           />
-
-          <button
-            :disabled="isFetching"
-            class="mt-4 pager-button items-center"
-            @click="fetchTransaction"
-          >
-            <span>{{ !isFetching ? $t('Reload this page') : $t('Loading...') }}</span>
-          </button>
         </div>
       </section>
     </template>
@@ -35,7 +29,7 @@
           </div>
           <div class="flex-auto min-w-0">
             <div class="text-grey mb-2">
-              {{ $t("Transaction ID") }}
+              {{ $t('TRANSACTION.ID') }}
             </div>
             <div class="flex">
               <div class="text-xl text-white semibold truncate">
@@ -70,7 +64,7 @@ export default {
   data: () => ({
     transaction: {},
     transactionNotFound: false,
-    isFetching: false
+    isLoading: false
   }),
 
   computed: {
@@ -110,7 +104,7 @@ export default {
 
   methods: {
     async fetchTransaction () {
-      this.isFetching = true
+      this.isLoading = true
 
       try {
         const transaction = await TransactionService.find(this.transaction.id)
@@ -119,12 +113,16 @@ export default {
       } catch (e) {
         console.log(e.message || e.data.error)
       } finally {
-        this.isFetching = false
+        setTimeout(() => (this.isLoading = false), 750)
       }
     },
 
     setTransaction (transaction) {
       this.transaction = transaction
+    },
+
+    onReload () {
+      this.fetchTransaction()
     }
   }
 }

@@ -1,58 +1,54 @@
 <template>
-  <div>
+  <div class="WalletTransactions">
     <h2 class="text-2xl mb-5 md:mb-6 px-5 sm:hidden text-theme-text-primary">
-      {{ $t("Transactions") }}
+      {{ $t('COMMON.TRANSACTIONS') }}
     </h2>
     <section class="page-section py-5 md:py-10">
-      <nav class="mx-5 md:mx-10 mb-8 border-b flex items-end">
+      <nav class="TransactionsNavigation mx-5 md:mx-10">
         <div
-          :class="[
-            !isTypeSent && !isTypeReceived ? 'text-2xl border-blue text-theme-text-primary' : 'text-lg text-theme-text-secondary border-transparent',
-            'mr-4 py-4 px-2 cursor-pointer border-b-3 hover:text-theme-primary hover:border-blue'
-          ]"
+          :class="{ 'active': !isTypeSent && !isTypeReceived }"
+          class="TransactionsNavigation--tab"
           @click="setType('all')"
         >
-          {{ $t("All") }}
+          {{ $t('TRANSACTION.TYPES.ALL') }}
         </div>
         <div
-          :class="[
-            isTypeSent ? 'text-2xl border-blue text-theme-text-primary' : 'text-lg text-theme-text-secondary border-transparent',
-            !sentCount ? 'pointer-events-none text-theme-text-tertiary' : '',
-            'mr-4 py-4 px-2 cursor-pointer border-b-3 hover:text-theme-text-primary hover:border-blue'
-          ]"
+          :class="{
+            'active': isTypeSent,
+            'disabled': !sentCount
+          }"
+          class="TransactionsNavigation--tab"
           @click="setType('sent')"
         >
-          {{ $t("Sent") }}
-          <span
-            :class="isTypeSent ? 'text-theme-text-secondary' : 'text-theme-text-tertiary'"
-            class="text-xs text-theme-text-secondary"
-          >
-            {{ sentCount }}
-          </span>
+          {{ $t('TRANSACTION.TYPES.SENT') }}
+          <span>{{ sentCount }}</span>
         </div>
         <div
-          :class="[
-            isTypeReceived ? 'text-2xl border-blue text-theme-text-primary' : 'text-lg text-theme-text-secondary border-transparent',
-            !receivedCount ? 'pointer-events-none text-theme-text-tertiary' : '',
-            'mr-4 py-4 px-2 cursor-pointer border-b-3 hover:text-theme-text-primary hover:border-blue'
-          ]"
+          :class="{
+            'active': isTypeReceived,
+            'disabled': !receivedCount
+          }"
+          class="TransactionsNavigation--tab"
           @click="setType('received')"
         >
-          {{ $t("Received") }}
-          <span
-            :class="isTypeReceived ? 'text-theme-text-secondary' : 'text-theme-text-tertiary'"
-            class="text-xs"
-          >
-            {{ receivedCount }}
-          </span>
+          {{ $t('TRANSACTION.TYPES.RECEIVED') }}
+          <span>{{ receivedCount }}</span>
         </div>
       </nav>
+
       <div class="hidden sm:block">
-        <TableTransactionsDetailDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          :show-confirmations="true"
+          :transactions="transactions"
+        />
       </div>
       <div class="sm:hidden">
-        <TableTransactionsDetailMobile :transactions="transactions" />
+        <TableTransactionsMobile
+          :show-confirmations="true"
+          :transactions="transactions"
+        />
       </div>
+
       <div
         v-if="transactions && transactions.length >= 25"
         class="mx-5 sm:mx-10 mt-5 md:mt-10 flex flex-wrap"
@@ -60,9 +56,9 @@
         <RouterLink
           :to="{ name: 'wallet-transactions', params: { address: wallet.address, type, page: 2 } }"
           tag="button"
-          class="show-more-button"
+          class="button-lg"
         >
-          {{ $t("Show more") }}
+          {{ $t('PAGINATION.SHOW_MORE') }}
         </RouterLink>
       </div>
     </section>
@@ -96,6 +92,19 @@ export default {
 
     isTypeReceived () {
       return this.type === 'received'
+    },
+
+    sortParams: {
+      get () {
+        return this.$store.getters['ui/transactionSortParams']
+      },
+
+      set (params) {
+        this.$store.dispatch('ui/setTransactionSortParams', {
+          field: params.field,
+          type: params.type
+        })
+      }
     }
   },
 
@@ -117,7 +126,7 @@ export default {
           this.wallet.address,
           this.page
         )
-        this.transactions = data
+        this.transactions = data.map(transaction => ({ ...transaction, price: null }))
       }
     },
 
@@ -143,7 +152,41 @@ export default {
       this.type = type
 
       this.getTransactions()
+    },
+
+    onSortChange (params) {
+      this.sortParams = params
     }
   }
 }
 </script>
+
+<style scoped>
+.TransactionsNavigation {
+  @apply .flex .items-end .mb-8 .border-b;
+}
+
+.TransactionsNavigation--tab {
+  @apply .text-lg .text-theme-text-secondary .border-transparent .mr-4 .py-4 .px-2 .cursor-pointer .border-b-3;
+}
+
+.TransactionsNavigation--tab:hover {
+  @apply .text-theme-text-primary .border-blue;
+}
+
+.TransactionsNavigation--tab.active {
+  @apply .text-2xl .border-blue .text-theme-text-primary;
+}
+
+.TransactionsNavigation--tab.disabled {
+  @apply .pointer-events-none .text-theme-text-tertiary
+}
+
+.TransactionsNavigation--tab > span {
+  @apply .text-xs .text-theme-text-tertiary;
+}
+
+.TransactionsNavigation--tab.active > span {
+  @apply .text-theme-text-secondary;
+}
+</style>

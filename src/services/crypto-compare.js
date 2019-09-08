@@ -1,44 +1,42 @@
 import axios from 'axios'
 import moment from 'moment'
-import genericPool from 'generic-pool'
 import store from '@/store'
 
-// CryptoCompare API supports until 50 requests per second
-const MAX_REQUEST_PER_SECOND = 50
 const SECONDS_PER_DAY = 86400
 
-const requestFactory = {
-  create () {
-    return axios
-  },
-  destroy (resource) {
-    return Promise.resolve()
-  }
-}
+// CryptoCompare supports upto 20 requests per second
+const MAX_REQUESTS_PER_SECOND = 1
+const REQUEST_INTERVAL = 50
 
-const requestPool = genericPool.createPool(requestFactory, {
-  max: MAX_REQUEST_PER_SECOND
+const limiter = axios.create({})
+
+limiter.interceptors.request.use(config => {
+  return new Promise((resolve, reject) => {
+    const interval = setInterval(() => {
+      if (CryptoCompareService.pendingRequests < MAX_REQUESTS_PER_SECOND) {
+        CryptoCompareService.pendingRequests++
+        clearInterval(interval)
+        resolve(config)
+      }
+    }, REQUEST_INTERVAL)
+  })
+})
+
+limiter.interceptors.response.use(response => {
+  CryptoCompareService.pendingRequests = Math.max(0, CryptoCompareService.pendingRequests - 1)
+  return Promise.resolve(response)
+}, error => {
+  CryptoCompareService.pendingRequests = Math.max(0, CryptoCompareService.pendingRequests - 1)
+  return Promise.reject(error)
 })
 
 class CryptoCompareService {
   async get (url, options) {
-    const client = await requestPool.acquire()
-    const response = await client.get(url, options)
-
-    // @see https://github.com/coopernurse/node-pool/issues/206
-    try {
-      await requestPool.release(client)
-    } catch (error) {
-      if (error.message !== 'Resource not currently part of this pool') {
-        throw error
-      }
-    }
-
-    return response
+    return limiter.get(url, options)
   }
 
   async price (currency) {
-    const response = await this.get(`https://min-api.cryptocompare.com/data/price?fsym=ARK&tsyms=${currency}`)
+    const response = await this.get(`https://min-api.cryptocompare.com/data/price?fsym=BPL&tsyms=${currency}`)
     if (response.data.hasOwnProperty(currency)) {
       return Number(response.data[currency])
     }
@@ -108,7 +106,7 @@ class CryptoCompareService {
     const token = store.getters['network/token']
     const cache = JSON.parse(localStorage.getItem(`rates_${targetCurrency}`))
 
-    if (cache && cache.hasOwnProperty(ts)) {
+    if (cache && cache[ts]) {
       store.dispatch('currency/setLastConversion', {
         to: targetCurrency,
         timestamp: ts,
@@ -146,11 +144,11 @@ class CryptoCompareService {
       labels: response.map(value => {
         return moment.unix(value.time).format(dateTimeFormat)
       }),
-      datasets: response.map(value => {
-        return value.close
-      })
+      datasets: response
     }
   }
 }
+
+CryptoCompareService.pendingRequests = 0
 
 export default new CryptoCompareService()

@@ -4,14 +4,13 @@ import store from '@/store'
 const walletPropertyArray = [
   'address',
   'balance',
-  'isDelegate',
-  'publicKey'
+  'isDelegate'
 ].sort()
-// Note: secondPublicKey, username and vote can also be returned, but are optional
+// Note: publicKey, secondPublicKey, username and vote can also be returned, but are optional
 
-describe('Wallet Service', () => {
+describe('Services > Wallet', () => {
   beforeAll(() => {
-    store.dispatch('network/setServer', 'https://explorer.ark.io/api/v2')
+    store.dispatch('network/setServer', 'https://explorer.blockpool.io/api/v2')
   })
 
   it('should return address when searching for existing wallet', async () => {

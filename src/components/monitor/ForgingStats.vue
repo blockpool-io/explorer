@@ -1,29 +1,37 @@
 <template>
-  <div class="flex flex-wrap p-5">
+  <div class="ForgingStats">
     <div class="w-1/2 lg:w-1/4 flex items-center px-6 my-6 border-r border-theme-border-secondary flex-col sm:flex-row text-center sm:text-left">
-      <div class="meter flex-none text-green mb-4 sm:mb-0">
+      <div class="Meter mb-4 sm:mb-0 text-status-forging">
         <ArkMeter :percentage="percentage(totals.forging)" />
+        <img
+          class="MeterIcon"
+          src="@/assets/images/icons/forging.svg"
+        >
       </div>
       <div class="p-0 sm:pl-4">
         <div class="text-3xl semibold">
           {{ totals.forging }}
         </div>
         <div class="text-grey">
-          {{ $t("Forged block recently") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.STATS.FORGED') }}
         </div>
       </div>
     </div>
 
     <div class="w-1/2 lg:w-1/4 flex items-center px-6 my-6 lg:border-r border-theme-border-secondary flex-col sm:flex-row text-center sm:text-left">
-      <div class="meter flex-none text-yellow mb-4 sm:mb-0">
+      <div class="Meter mb-4 sm:mb-0 text-status-missed-block">
         <ArkMeter :percentage="percentage(totals.missedBlock)" />
+        <img
+          class="MeterIcon"
+          src="@/assets/images/icons/missed-block.svg"
+        >
       </div>
       <div class="p-0 sm:pl-4">
         <div class="text-3xl semibold">
           {{ totals.missedBlock }}
         </div>
         <div class="text-grey">
-          {{ $t("Missed block") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.STATS.MISSED') }}
         </div>
       </div>
     </div>
@@ -31,21 +39,25 @@
     <hr class="block lg:hidden">
 
     <div class="w-1/2 lg:w-1/4 flex items-center px-6 my-6 border-r border-theme-border-secondary flex-col sm:flex-row text-center sm:text-left">
-      <div class="meter flex-none text-red mb-4 sm:mb-0">
-        <ArkMeter :percentage="percentage(totals.notForging)" />
+      <div class="Meter mb-4 sm:mb-0 text-status-not-forging">
+        <ArkMeter :percentage="percentage(totals.notForging + totals.neverForged)" />
+        <img
+          class="MeterIcon"
+          src="@/assets/images/icons/not-forging.svg"
+        >
       </div>
       <div class="p-0 sm:pl-4">
         <div class="text-3xl semibold">
           {{ totals.notForging + totals.neverForged }}
         </div>
         <div class="text-grey">
-          {{ $t("Not forging") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.STATS.NOT_FORGING') }}
         </div>
       </div>
     </div>
 
     <div class="w-1/2 lg:w-1/4 flex items-center px-6 my-6 flex-col sm:flex-row text-center sm:text-left">
-      <div class="meter flex-none text-blue mb-4 sm:mb-0">
+      <div class="Meter mb-4 sm:mb-0 text-blue">
         <ArkMeter :percentage="percentage(totals.remainingBlocks)" />
       </div>
       <div class="p-0 sm:pl-4">
@@ -53,7 +65,7 @@
           {{ totals.remainingBlocks }}
         </div>
         <div class="text-grey">
-          {{ $t("In queue for forging") }}
+          {{ $t('PAGES.DELEGATE_MONITOR.STATS.IN_QUEUE') }}
         </div>
       </div>
     </div>
@@ -108,3 +120,20 @@ export default {
   }
 }
 </script>
+
+<style>
+.ForgingStats {
+  @apply .flex .flex-wrap .p-5;
+}
+
+.Meter {
+  height: 50px;
+  width: 50px;
+  @apply .relative .flex-none;
+}
+
+.MeterIcon {
+  @apply .absolute .inset-0 .m-auto;
+  width: 16px;
+}
+</style>

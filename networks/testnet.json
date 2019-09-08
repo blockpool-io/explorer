@@ -1,15 +1,19 @@
 {
-  "title": "TARK Explorer",
-  "server": "http://127.0.0.1:4003/api/v2",
-  "alias": "Testnet local",
-  "activeDelegates": 51,
-  "rewardOffset": 75600,
+  "title": "Blockpool Testnet Explorer",
+  "server": "https://api.testnet.blockpool.io/api/v2",
+  "alias": "test",
+  "activeDelegates": 201,
+  "rewardOffset": 1000,
   "currencies": [],
   "knownWallets": {},
   "defaults": {
-    "token": "TARK",
-    "symbol": "TѦ",
+    "token": "tBPL",
+    "symbol": "tβ",
     "currency": null,
-    "priceChart": false
+    "priceChartOptions": {
+      "enabled": false,
+      "period": "day",
+      "type": "price"
+    }
   }
 }

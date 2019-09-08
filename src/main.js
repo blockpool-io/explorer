@@ -8,11 +8,12 @@ import router from './router'
 import store from './store'
 import i18n from './i18n'
 import directives from './directives'
+import mixins from './mixins'
 import VTooltip from 'v-tooltip'
 import VueGoodTablePlugin from 'vue-good-table'
+import NProgress from 'vue-nprogress'
 
 require('./components')
-require('./mixins')
 
 sync(store, router)
 
@@ -24,6 +25,13 @@ Vue.use(VTooltip, {
   defaultContainer: 'main'
 })
 Vue.use(VueGoodTablePlugin)
+Vue.use(NProgress)
+
+Vue.mixin(mixins)
+
+const nprogress = new NProgress({
+  showSpinner: false
+})
 
 /* eslint-disable no-new */
 new Vue({
@@ -31,6 +39,7 @@ new Vue({
   i18n,
   router,
   store,
+  nprogress,
   components: { App },
   template: '<App/>'
 })

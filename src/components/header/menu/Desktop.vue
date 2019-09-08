@@ -1,5 +1,5 @@
 <template>
-  <div class="absolute inset-0 px-4 md:px-8 hidden sm:flex bg-theme-nav-background xl:rounded-r-md">
+  <div class="HeaderMenuDesktop md:px-8 sm:flex xl:rounded-r-md">
     <button
       class="px-4 py-3 md:py-6 flex-none flex items-center border-b-2 mt-2px mr-3 border-transparent hover:border-red text-theme-text-secondary"
       @click="closeMenu"
@@ -26,7 +26,7 @@
       class="menu-button"
       @click.native="closeMenu"
     >
-      {{ $t("Home") }}
+      {{ $t('PAGES.HOME.TITLE') }}
     </RouterLink>
 
     <RouterLink
@@ -35,7 +35,7 @@
       class="menu-button"
       @click.native="closeMenu"
     >
-      {{ $t("Top Wallets") }}
+      {{ $t('PAGES.TOP_WALLETS.TITLE') }}
     </RouterLink>
 
     <RouterLink
@@ -44,17 +44,10 @@
       class="menu-button"
       @click.native="closeMenu"
     >
-      {{ $t("Delegate Monitor") }}
+      {{ $t('PAGES.DELEGATE_MONITOR.TITLE') }}
     </RouterLink>
 
-    <!-- <RouterLink :to="{ name: 'statistics' }" tag="button" class="menu-button">Statistics</RouterLink> -->
-
     <div class="flex-auto" />
-
-    <!-- <a href="#" class="menu-button">
-      <span class="mr-2">Snapshots</span>
-      <img src="@/assets/images/icons/download.svg" />
-    </a> -->
   </div>
 </template>
 
@@ -70,3 +63,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .HeaderMenuDesktop {
+    @apply .absolute .inset-0 .px-4 .hidden .bg-theme-nav-background
+  }
+</style>

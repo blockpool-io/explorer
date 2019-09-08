@@ -1,12 +1,12 @@
 <template>
   <div class="max-w-2xl mx-auto md:pt-5">
-    <ContentHeader>{{ $t("Transactions") }}</ContentHeader>
+    <ContentHeader>{{ $t('COMMON.TRANSACTIONS') }}</ContentHeader>
 
     <section class="hidden sm:block mb-5">
       <div class="px-5 sm:px-10 py-8 bg-theme-feature-background flex xl:rounded-lg items-center justify-between">
         <div class="flex-auto min-w-0">
           <div class="text-grey mb-2">
-            {{ $t("Transaction type") }}
+            {{ $t('TRANSACTION.TYPE') }}
           </div>
           <div class="flex">
             <div class="text-lg text-white semibold truncate">
@@ -25,7 +25,11 @@
 
     <section class="page-section py-5 md:py-10">
       <div class="hidden sm:block">
-        <TableTransactionsDesktop :transactions="transactions" />
+        <TableTransactionsDesktop
+          :transactions="transactions"
+          :sort-query="sortParams"
+          @on-sort-change="onSortChange"
+        />
       </div>
       <div class="sm:hidden">
         <div class="mx-5 mb-4">
@@ -34,12 +38,11 @@
 
         <TableTransactionsMobile :transactions="transactions" />
       </div>
-      <Paginator
-        v-if="showPaginator"
-        :previous="meta.previous"
-        :next="meta.next"
-        @previous="onPrevious"
-        @next="onNext"
+      <Pagination
+        v-if="showPagination"
+        :meta="meta"
+        :current-page="currentPage"
+        @page-change="onPageChange"
       />
     </section>
   </div>
@@ -65,8 +68,21 @@ export default {
   }),
 
   computed: {
-    showPaginator () {
-      return this.meta && (this.meta.previous || this.meta.next)
+    showPagination () {
+      return this.meta && this.meta.pageCount > 1
+    },
+
+    sortParams: {
+      get () {
+        return this.$store.getters['ui/transactionSortParams']
+      },
+
+      set (params) {
+        this.$store.dispatch('ui/setTransactionSortParams', {
+          field: params.field,
+          type: params.type
+        })
+      }
     }
   },
 
@@ -88,11 +104,13 @@ export default {
       )
 
       next(vm => {
-        vm.currentPage = to.params.page
+        vm.currentPage = Number(to.params.page)
         vm.setTransactions(data)
         vm.setMeta(meta)
       })
-    } catch (e) { next({ name: '404' }) }
+    } catch (e) {
+      next({ name: '404' })
+    }
   },
 
   async beforeRouteUpdate (to, from, next) {
@@ -105,11 +123,13 @@ export default {
         Number(localStorage.getItem('transactionType') || -1)
       )
 
-      this.currentPage = to.params.page
+      this.currentPage = Number(to.params.page)
       this.setTransactions(data)
       this.setMeta(meta)
       next()
-    } catch (e) { next({ name: '404' }) }
+    } catch (e) {
+      next({ name: '404' })
+    }
   },
 
   methods: {
@@ -118,19 +138,15 @@ export default {
         return
       }
 
-      this.transactions = transactions
+      this.transactions = transactions.map(transaction => ({ ...transaction, price: null }))
     },
 
     setMeta (meta) {
       this.meta = meta
     },
 
-    onPrevious () {
-      this.currentPage = Number(this.currentPage) - 1
-    },
-
-    onNext () {
-      this.currentPage = Number(this.currentPage) + 1
+    onPageChange (page) {
+      this.currentPage = page
     },
 
     setType (type) {
@@ -138,7 +154,24 @@ export default {
         this.transactionType = type
         this.currentPage = 1
 
-        this.changePage()
+        this.transactions = null
+        this.meta = null
+
+        this.getTransactions()
+      }
+    },
+
+    async getTransactions () {
+      try {
+        const { meta, data } = await TransactionService.filterByType(
+          this.currentPage,
+          this.transactionType
+        )
+
+        this.setTransactions(data)
+        this.setMeta(meta)
+      } catch (e) {
+        console.log(e.message || e.data.error)
       }
     },
 
@@ -149,6 +182,10 @@ export default {
           page: this.currentPage
         }
       })
+    },
+
+    onSortChange (params) {
+      this.sortParams = params
     }
   }
 }
