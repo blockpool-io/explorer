@@ -1,15 +1,21 @@
 {
-  "title": "TARK Explorer",
-  "server": "http://127.0.0.1:4003/api/v2",
-  "alias": "Testnet local",
-  "activeDelegates": 51,
-  "rewardOffset": 75600,
+  "title": "tBPL Explorer",
+  "server": "http://35.180.64.83:9028/api",
+  "alias": "Testnet",
+  "activeDelegates": 201,
+  "epochTime": "2017-03-21T13:00:00.000Z",
   "currencies": [],
-  "knownWallets": {},
+  "knownWallets": {
+    "BCWzC3cB225kNfsMum6taHWsqGE6gLQHKQ": "Genesis Wallet"
+  },
   "defaults": {
-    "token": "TARK",
-    "symbol": "TѦ",
+    "token": "TBPL",
+    "symbol": "Tβ",
     "currency": null,
-    "priceChart": false
+    "priceChartOptions": {
+      "enabled": false,
+      "period": "day",
+      "type": "price"
+    }
   }
 }

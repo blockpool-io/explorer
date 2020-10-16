@@ -1,50 +1,48 @@
 <template>
-  <div class="hidden lg:flex items-center">
-    <div class="mr-6 flex-none">
-      <img
-        class="block"
-        src="@/assets/images/icons/group.svg"
-      >
+  <div class="items-center hidden lg:flex">
+    <div class="flex-none mr-6 text-blue">
+      <SvgIcon class="block" name="group" view-box="0 0 47 38" />
     </div>
     <div>
-      <div class="text-grey mb-2">
-        {{ $t("Delegates") }}
+      <div class="mb-2 text-grey">
+        {{ $t("COMMON.DELEGATES") }}
       </div>
-      <div class="text-lg text-white semibold truncate">
+      <div class="text-lg text-white truncate semibold">
         {{ count }}
       </div>
     </div>
   </div>
 </template>
 
-<script type="text/ecmascript-6">
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Vue } from "vue-property-decorator";
+import { mapGetters } from "vuex";
+import { IDelegate } from "@/interfaces";
 
-export default {
-  name: 'DelegateCount',
-
-  data: () => ({
-    count: 0
-  }),
-
+@Component({
   computed: {
-    ...mapGetters('delegates', ['delegates'])
+    ...mapGetters("delegates", ["delegates"]),
   },
+})
+export default class DelegateCount extends Vue {
+  private count = 0;
+  private delegates: IDelegate[];
 
-  mounted () {
-    this.prepareComponent()
-  },
+  public mounted() {
+    this.prepareComponent();
+  }
 
-  methods: {
-    prepareComponent () {
-      this.getDelegateCount()
+  private prepareComponent() {
+    this.getDelegateCount();
 
-      this.$store.watch(state => state.delegates.delegates, value => this.getDelegateCount())
-    },
+    this.$store.watch(
+      (state) => state.delegates.delegates,
+      (value) => this.getDelegateCount(),
+    );
+  }
 
-    getDelegateCount () {
-      this.count = this.delegates.length
-    }
+  private getDelegateCount() {
+    this.count = this.delegates.length;
   }
 }
 </script>

@@ -1,72 +1,64 @@
 <template>
-  <header
-    v-click-outside="closeHeader"
-    class="AppHeader min-h-50px md:min-h-80px mb-5 sm:mb-10 xl:rounded-md"
-  >
+  <header v-click-outside="closeHeader" class="mb-5 AppHeader min-h-50px md:min-h-80px sm:mb-10 xl:rounded-md">
     <RouterLink
       :to="{ name: 'home' }"
-      class="logo-container w-50px md:w-80px h-50px md:h-80px flex-none bg-red text-2xl xl:rounded-l-md flex justify-center items-center"
+      class="flex items-center justify-center flex-none text-2xl logo-container w-50px md:w-80px h-50px md:h-80px bg-theme-accents xl:rounded-l-md"
     >
-      <img
-        class="logo max-w-25px md:max-w-38px"
-        src="@/assets/images/logo.png"
-      >
+      <img class="logo max-w-25px md:max-w-38px" src="@/assets/images/logo.png" />
     </RouterLink>
 
-    <div class="w-full relative hidden xl:flex">
+    <div class="relative hidden w-full xl:flex">
       <HeaderSearch v-if="headerType === 'search'" />
-      <HeaderCurrenciesDesktop v-else-if="headerType === 'currencies'" />
-      <HeaderLanguagesDesktop v-else-if="headerType === 'languages'" />
       <HeaderDefault v-else />
-      <HeaderMenuDesktop v-if="menuVisible" />
+      <HeaderMenuDesktop v-if="menuVisible" :entries="menuEntries" />
     </div>
 
-    <div class="w-full relative flex xl:hidden">
+    <div class="relative flex w-full xl:hidden">
       <HeaderSearch v-if="headerType === 'search'" />
       <HeaderDefault v-else />
     </div>
 
-    <HeaderMenuMobile v-if="menuVisible" />
-    <HeaderCurrenciesMobile v-else-if="headerType === 'currencies'" />
-    <HeaderLanguagesMobile v-else-if="headerType === 'languages'" />
+    <HeaderMenuMobile v-if="menuVisible" :entries="menuEntries" />
   </header>
 </template>
 
-<script type="text/ecmascript-6">
-import {
-  HeaderDefault,
-  HeaderSearch,
-  HeaderCurrenciesDesktop,
-  HeaderCurrenciesMobile,
-  HeaderLanguagesDesktop,
-  HeaderLanguagesMobile,
-  HeaderMenuDesktop,
-  HeaderMenuMobile
-} from '@/components/header'
-import { mapGetters } from 'vuex'
+<script lang="ts">
+import { Component, Provide, Vue } from "vue-property-decorator";
+import { mapGetters } from "vuex";
+import { HeaderDefault, HeaderSearch, HeaderMenuDesktop, HeaderMenuMobile } from "@/components/header";
 
-export default {
-  name: 'AppHeader',
-
+@Component({
   components: {
     HeaderDefault,
     HeaderSearch,
-    HeaderCurrenciesDesktop,
-    HeaderCurrenciesMobile,
-    HeaderLanguagesDesktop,
-    HeaderLanguagesMobile,
     HeaderMenuDesktop,
-    HeaderMenuMobile
+    HeaderMenuMobile,
   },
-
   computed: {
-    ...mapGetters('ui', ['headerType', 'menuVisible'])
-  },
+    ...mapGetters("ui", ["headerType", "menuVisible"]),
+    ...mapGetters("network", ["hasMagistrateEnabled"]),
 
-  methods: {
-    closeHeader () {
-      this.$store.dispatch('ui/setHeaderType', null)
-    }
+    menuEntries() {
+      const entries = [{ name: "home" }, { name: "top-wallets", params: { page: 1 } }, { name: "delegate-monitor" }];
+
+      entries.push({ name: "advanced-search", params: { page: 1 } });
+
+      return entries;
+    },
+  },
+})
+export default class AppHeader extends Vue {
+  @Provide("normalizeName") public foo = this.normalizeName;
+
+  private headerType: string;
+  private menuVisible: boolean;
+
+  public normalizeName(name: string): string {
+    return name.replace("-", "_").toUpperCase();
+  }
+
+  private closeHeader(): void {
+    this.$store.dispatch("ui/setHeaderType", null);
   }
 }
 </script>
